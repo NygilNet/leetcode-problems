@@ -48,7 +48,7 @@ function isWinner(player1: number[], player2: number[]): number {
 A revised version of a leetcode question have completed
 
 Changes made:
-
+ 
     used less ternary statements and added helper functions to make code more readable
 
 */
