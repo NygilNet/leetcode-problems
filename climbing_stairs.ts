@@ -47,7 +47,7 @@ function climbStairs(n: number): number {
         return arr[num];
     }
 
-   let memo: number[] = [0].fill(-1, 0, n + 1);
+   let memo: number[] = Array(n + 1).fill(-1);
 
    return countWays(n, memo);
 

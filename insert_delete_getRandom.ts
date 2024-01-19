@@ -13,34 +13,71 @@ You must implement the functions of the class such that each function works in a
 */
 
 class RandomizedSet {
-    private list: Set<number>;
+    // private list: Set<number>;
+
+    // constructor() {
+    //     this.list = new Set<number>();
+    // }
+
+    // insert(val: number): boolean {
+    //     if (this.list.has(val)) return false;
+    //     this.list.add(val);
+    //     return true;
+    // }
+
+    // remove(val: number): boolean {
+    //     if (!this.list.has(val)) return false;
+    //     this.list.delete(val);
+    //     return true;
+    // }
+
+    // getRandom(): number {
+    //     const randomInt = Math.floor(Math.random() * this.list.size);
+    //     let i = 0;
+    //     for (const value of this.list.values()) {
+    //         if (i === randomInt) {
+    //             return value;
+    //         }
+    //         i++;
+    //     }
+    //     return -1;
+    // }
+
+    private set: number[] = [];
+    private indices = {};
 
     constructor() {
-        this.list = new Set<number>();
+        this.set = [];
+        this.indices = {};
     }
 
     insert(val: number): boolean {
-        if (this.list.has(val)) return false;
-        this.list.add(val);
+        if (val in this.indices) return false;
+        this.indices[val] = this.set.length;
+        this.set.push(val);
         return true;
     }
 
     remove(val: number): boolean {
-        if (!this.list.has(val)) return false;
-        this.list.delete(val);
+
+        if (!(val in this.indices)) return false;
+
+        const valIndex = this.indices[val];
+        const lastVal = this.set.at(-1);
+
+        [this.set[valIndex], this.set[this.set.length -1]] = [this.set[this.set.length - 1], this.set[val]];
+        this.indices[lastVal] = valIndex;
+
+        this.set.pop();
+        delete this.indices[val];
+
         return true;
+
     }
 
     getRandom(): number {
-        const randomInt = Math.floor(Math.random() * this.list.size);
-        let i = 0;
-        for (const value of this.list.values()) {
-            if (i === randomInt) {
-                return value;
-            }
-            i++;
-        }
-        return -1;
+        const randomInt = Math.floor(Math.random() * this.set.length);
+        return this.set[randomInt];
     }
 }
 
