@@ -10,21 +10,21 @@ You can return the answer in any order.
 
 */
 
-function twoSum(nums: number[], target: number): number[] {
+function twoSum(nums: number[], target: number): number[] | null {
 
-    const n = nums.length, map = new Map();
+    const n = nums.length, map = new Map<number, number>();
 
     for (let i = 0; i < n; i++) {
 
         let currentValue = nums[i];
 
-        if (map.has(currentValue)) return [map.get(currentValue), i];
+        if (map.has(currentValue)) return [map.get(currentValue)!, i];
 
         map.set(target - currentValue, i);
 
     }
 
-    return [-1];
+    return null;
 
 }
 
