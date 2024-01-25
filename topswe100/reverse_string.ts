@@ -19,13 +19,8 @@ function reverseString(s: string[]): void {
 
     const fullLength = s.length, halfLength = Math.floor(fullLength / 2);
 
-    for (let i = 0; i < halfLength; i++) {
-
-        const leftCharacter = i;
-        const rightCharacter = fullLength - (i + 1);
-
-        [s[leftCharacter], s[rightCharacter]] = [s[rightCharacter], s[leftCharacter]];
-
+    for (let left = 0, right = fullLength - 1; left < halfLength; left++, right--) {
+        [s[left], s[right]] = [s[right], s[left]];
     }
 
 }

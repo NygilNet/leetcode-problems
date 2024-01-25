@@ -19,3 +19,9 @@ function isPalindrome(s: string): boolean {
     return true;
 
 }
+
+/*
+
+Being introduced to the idea of using more logic in for loop statements
+
+*/
