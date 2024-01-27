@@ -30,3 +30,12 @@ function longestCommonPrefix(strs: string[]): string {
     return res;
 
 }
+
+/*
+
+First version of this function I sorted the array from biggest to smallest in order to use it as a queue
+
+
+
+
+*/
