@@ -36,7 +36,7 @@ still too slow
 
 */
 
-function climbStairs(n: number): number {
+function climbingStairs(n: number): number {
 
 
     function countWays(num: number, arr: number[]) {

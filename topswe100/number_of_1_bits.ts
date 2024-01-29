@@ -12,5 +12,18 @@ In Java, the compiler represents the signed integers using 2's complement notati
 */
 
 function hammingWeight(n: number): number {
-    return n.toString(2).split("1").length - 1;
+    let count = 0;
+    while (n !== 0) {
+        count += n & 1;
+        n >>>= 1;
+    }
+    return count;
 }
+
+/*
+
+original solution
+
+    return n.toString(2).split("1").length - 1;
+
+*/
