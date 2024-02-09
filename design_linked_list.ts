@@ -89,53 +89,40 @@ class MyLinkedList {
     }
 
     addAtIndex(index: number, val: number): void {
-
+        // if (index < 0 || index > this.length) return;
+    
         const node = new LinkedListNode(val);
         
-        let current = this.head.next;
-        let i = 0;
-        
-        while (current) {
-            if (i === index) {
-                let nxt = current;
-                let prv = current.prev;
-                
-                // link to previous node
-                prv!.next = node;
-                node.prev = prv;
-                
-                // link to next node
-                nxt.prev = node;
-                node.next = nxt;
-                
-                break;
-            }
-            current = current.next;
-            i++;
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current.next!;
         }
-
+    
+        const nxt = current.next;
+        const prv = current;
+    
+        prv.next = node;
+        node.prev = prv;
+    
+        node.next = nxt;
+        nxt!.prev = node;
+    
         this.length++;
     }
 
     deleteAtIndex(index: number): void {
-        if (this.length - 1 < index) return;
+        if (index < 0 || index > this.length) return;
         
-        let current = this.head.next;
-        let i = 0;
-        
-        while (current) {
-            if (i === index) {
-                let nxt = current.next;
-                let prv = current.prev;
-
-                nxt!.prev = prv;
-                prv!.next = nxt;
-                
-                break;
-            }
-            current = current.next;
-            i++;
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current.next!;
         }
+        
+        let nxt = current.next;
+        let prv = current.prev;
+
+        nxt!.prev = prv;
+        prv!.next = nxt;
 
         this.length--;
     }
