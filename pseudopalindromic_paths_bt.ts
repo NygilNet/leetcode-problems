@@ -16,16 +16,19 @@ function pseudoPalindromicPaths (root: TreeNode | null): number {
     function _dfs(root: TreeNode | null, frequency: number[]) {
         if (!root) return;
         
-        const newFrequency = [...frequency];
-        newFrequency[root.val]++;
+        // const newFrequency = [...frequency];
+        // newFrequency[root.val]++;
+        frequency[root.val]++;
         
         if (!root.left && !root.right) {
-            if (newFrequency.filter(val => val % 2 === 1).length < 2) count++;
+            if (frequency.filter(val => val % 2 === 1).length < 2) count++;
             return;
         }
 
-        _dfs(root.left, newFrequency);
-        _dfs(root.right, newFrequency);
+        _dfs(root.left, frequency);
+        _dfs(root.right, frequency);
+
+        frequency[root.val]--;
 
     }
 
