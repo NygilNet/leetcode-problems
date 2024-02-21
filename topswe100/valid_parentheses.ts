@@ -13,7 +13,8 @@ Every close bracket has a corresponding open bracket of the same type.
 */
 
 function isValid(s: string): boolean {
-    if (s.length % 2 !== 0) return false;
+    const len = s.length;
+    if (len % 2 !== 0) return false;
 
     const openBrackets = new Set(["(", "{", "["]);
     const sameOpenBracket = {
@@ -21,16 +22,17 @@ function isValid(s: string): boolean {
         "}": "{",
         "]": "["
     }
-    const stack: string[] = [];
+    const stack: number[] = [];
 
-    for (const character of s) {
+    for (let i = 0; i < len; i++) {
+        const character = s[i];
         const isOpen = openBrackets.has(character);
         if (isOpen) {
-            stack.push(character);
+            stack.push(i);
         } else {
             const compliment = sameOpenBracket[character];
-            const lastOpen = stack.pop();
-            if (compliment !== lastOpen) return false;
+            const lastOpenIndex = stack.pop();
+            if (lastOpenIndex === undefined || compliment !== s[lastOpenIndex]) return false;
         }
     }
 
