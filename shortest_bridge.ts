@@ -45,6 +45,7 @@ function shortestBridge(grid: number[][]): number {
     const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0]], n = grid.length;
     const visited: boolean[][] = Array.from({ length: n}, () => new Array(n).fill(false));
     const queue: number[][] = [];
+    let found = false;
 
     function _isInBounds(r: number, c: number): boolean {
         return (0 <= r && r < n) && (0 <= c && c < n); 
@@ -70,7 +71,6 @@ function shortestBridge(grid: number[][]): number {
         let layer = 0;
         while (queue.length) {
             let snapshot = queue.length;
-
             for (let i = 0; i < snapshot; i++) {
                 const [r, c] = queue.shift()!;
                 for (const [dr, dc] of DIRECTIONS) {
@@ -92,9 +92,11 @@ function shortestBridge(grid: number[][]): number {
         for (let col = 0; col < n; col++) {
             if (grid[row][col] === 1) {
                 _dfs(row, col);
+                found = true;
                 break;
             }
         }
+        if (found) break;
     }
 
     return _bfs();
