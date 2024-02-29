@@ -43,8 +43,8 @@ keyword: shortest path -> BFS
 
 function shortestBridge(grid: number[][]): number {
     const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0]], n = grid.length;
-    let shortestPath = Number.MAX_SAFE_INTEGER;
-    const visited: Set<string> = new Set();
+    const visited: boolean[][] = Array.from({ length: n}, () => new Array(n).fill(false));
+    const queue: number[][] = [];
 
     function _isInBounds(r: number, c: number): boolean {
         return (0 <= r && r < n) && (0 <= c && c < n); 
@@ -55,24 +55,41 @@ function shortestBridge(grid: number[][]): number {
         while (stack.length) {
             const r = stack.pop()!;
             const c = stack.pop()!;
-            visited.add(`${row},${col}`);
+            visited[r][c] = true;
+            queue.push([r, c]);
             for (const [dr, dc] of DIRECTIONS) {
                 const newRow = r + dr, newCol = c + dc;
-                if (_isInBounds(newRow, newCol) && grid[newRow][newCol] === 1 && !visited.has(`${newRow},${newCol}`)) {
+                if (_isInBounds(newRow, newCol) && grid[newRow][newCol] === 1 && !visited[newRow][newCol]) {
                     stack.push(newCol, newRow);
                 } 
             }
         }
     }
 
-    function _bfs() {
-        const queue = Array.from(visited.entries())
-        console.log(queue)
+    function _bfs(): number {
+        let layer = 0;
+        while (queue.length) {
+            let snapshot = queue.length;
+
+            for (let i = 0; i < snapshot; i++) {
+                const [r, c] = queue.shift()!;
+                for (const [dr, dc] of DIRECTIONS) {
+                    const newRow = r + dr, newCol = c + dc;
+                    if (_isInBounds(newRow, newCol) && !visited[newRow][newCol]) {
+                        if (grid[newRow][newCol] === 1) return +layer;
+                        visited[newRow][newCol] = true;
+                        queue.push([newRow, newCol]);
+                    }
+                }
+            }
+
+            layer++;
+        }
+        return -1;
     }
 
     for (let row = 0; row < n; row++) {
         for (let col = 0; col < n; col++) {
-            if (shortestPath === 1) return shortestPath;
             if (grid[row][col] === 1) {
                 _dfs(row, col);
                 break;
@@ -80,7 +97,5 @@ function shortestBridge(grid: number[][]): number {
         }
     }
 
-    _bfs();
-
-    return shortestPath;
+    return _bfs();
 }
