@@ -27,42 +27,84 @@ iterate over the first row of matrix, calling backtracking on each node
 return minSum
 
 
+memoization/ dynamic programming
+
+    dfs to check each different path
+
+    select the lowest number that we can reach at each row
+
+    need to DFS for each starting point on row 0
+
 */
 
 function minFallingPathSum(matrix: number[][]): number {
-    let minSum: number = Infinity;
-    const length = matrix[0].length, directions = [[1, -1], [1, 0], [1, 1]];
+    const n = matrix.length, memo = {};
+    let minSum: number = Number.MAX_SAFE_INTEGER;
 
-    function _backtracking(row: number, col: number, currentSum: number) {
-
-        const node = matrix[row][col];
-        currentSum += node;
-
-
-        for (let dir of directions) {
-
-            const nextRow = row + dir[0], nextCol = col + dir[1];
-
-            if (nextRow === length) {
-                minSum = Math.min(minSum, currentSum);
-                return;
-            }
-            if (0 > nextCol || nextCol >= length) {
-                continue;
-            }
-
-            _backtracking(nextRow, nextCol, currentSum);
-
-        }
-
+    function _inbound(c: number): boolean {
+        return 0 <= c && c < n;
     }
 
-    for (let i = 0; i < length; i++) {
-        _backtracking(0, i, 0);
+    function _dp(r: number, c: number): number {
+        if (!_inbound(c)) {
+            return Number.MAX_SAFE_INTEGER;
+        }
+        if (r === n - 1) {
+            return matrix[r][c];
+        }
+        const key = `${r},${c}`;
+        if (key in memo) {
+            return memo[key];
+        }
+
+        const left = _dp(r + 1, c - 1);
+        const mid = _dp(r + 1, c);
+        const right = _dp(r + 1, c + 1);
+
+        memo[key] = Math.min(left, mid, right) + matrix[r][c];
+
+        return memo[key];
+    }
+
+    for (let col = 0; col < n; col++) {
+        minSum = Math.min(_dp(0, col), minSum);
     }
 
     return minSum;
 };
+
+// let minSum: number = Infinity;
+// const length = matrix[0].length, directions = [[1, -1], [1, 0], [1, 1]];
+
+// function _backtracking(row: number, col: number, currentSum: number) {
+
+//     const node = matrix[row][col];
+//     currentSum += node;
+
+
+//     for (let dir of directions) {
+
+//         const nextRow = row + dir[0], nextCol = col + dir[1];
+
+//         if (nextRow === length) {
+//             minSum = Math.min(minSum, currentSum);
+//             return;
+//         }
+//         if (0 > nextCol || nextCol >= length) {
+//             continue;
+//         }
+
+//         _backtracking(nextRow, nextCol, currentSum);
+
+//     }
+
+// }
+
+// for (let i = 0; i < length; i++) {
+//     _backtracking(0, i, 0);
+// }
+
+// return minSum;
 
 /*
 
