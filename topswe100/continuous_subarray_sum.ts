@@ -42,19 +42,19 @@ Constraints:
 function checkSubarraySum(nums: number[], k: number): boolean {
     let currentSum = 0;
     const len = nums.length, sumFrequencies = new Map<number, number>();
-
+    
     sumFrequencies.set(0, 1);
-
+    
     for (let i = 0; i < len; i++) {
         currentSum += nums[i];
-
+    
         if (sumFrequencies.has(currentSum - k)) {
-            
+            return true;
         }
-
+    
         const currentFrequency = sumFrequencies.get(currentSum) || 0;
         sumFrequencies.set(currentSum, currentFrequency + 1);
     }
-
+    
     return false;
 }
