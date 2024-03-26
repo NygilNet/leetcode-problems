@@ -12,8 +12,9 @@ Hint: Try preprocessing the dictionary into a more efficient data structure to s
 
 function autocomplete(query: string, set: string[]): string[] {
     const matches: string[] = [];
+    const hit: string = query.toLowerCase();
     for (const str of set) {
-        if (str.slice(0, query.length).toLowerCase() === query.toLowerCase()) {
+        if (str.slice(0, query.length).toLowerCase() === hit) {
             matches.push(str);
         }
     }
