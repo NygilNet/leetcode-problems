@@ -30,8 +30,11 @@ function longestUnivaluePath(root: TreeNode | null): number {
 
         const { val, left, right } = node;
 
-        let leftPath: number = left?.val === val ? _dfs(node.left) : 0;
-        let rightPath: number = right?.val === val ? _dfs(node.right): 0;
+        const l = _dfs(left);
+        const r = _dfs(right);
+
+        let leftPath: number = left?.val === val ? l : 0;
+        let rightPath: number = right?.val === val ? r : 0;
 
         const pathLen = leftPath + rightPath + 1;
         longest = Math.max(longest, pathLen);
