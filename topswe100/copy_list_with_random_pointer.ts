@@ -1,0 +1,88 @@
+/*
+
+link to problem: https://leetcode.com/problems/copy-list-with-random-pointer/description/
+
+A linked list of length n is given such that each node contains an additional random pointer, which could point to any node in the list, or null.
+
+Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
+
+For example, if there are two nodes X and Y in the original list, where X.random --> Y, then for the corresponding two nodes x and y in the copied list, x.random --> y.
+
+Return the head of the copied linked list.
+
+The linked list is represented in the input/output as a list of n nodes. Each node is represented as a pair of [val, random_index] where:
+
+val: an integer representing Node.val
+random_index: the index of the node (range from 0 to n-1) that the random pointer points to, or null if it does not point to any node.
+Your code will only be given the head of the original linked list.
+
+
+*/
+
+class RandomNode {
+    val: number
+    next: RandomNode | null
+    random: RandomNode | null
+
+    constructor(val?: number, next?: RandomNode, random?: RandomNode) {
+        this.val = (val === undefined ? 0 : val);
+        this.next = (next === undefined ? null: next);
+        this.random = (random === undefined ? null : random);
+    }
+}
+
+function copyRandomList(head: RandomNode | null): RandomNode | null {
+    if (!head) {
+        return null;
+    }
+
+    let current: RandomNode | null = head;
+    const copies: Map<RandomNode,RandomNode> = new Map();
+
+    while (current) {
+        const { val, next } = current;
+        copies.set(current, new RandomNode(val));
+        current = next;
+    }
+
+    current = head;
+
+    while (current) {
+        const node = copies.get(current)!;
+        const { next, random } = current;
+        node.next = next ? copies.get(next) || null : null;
+        node.random = random ? copies.get(random) || null : null;
+        current = next;
+    }
+
+    return copies.get(head)!;
+}
+
+// const copies: Map<RandomNode,RandomNode> = new Map();
+// const toAssign: Map<RandomNode,RandomNode> = new Map();
+// let current = head;
+// const dummy = new RandomNode();
+// let prev = dummy;
+// while (current) {
+//     let { val, next, random } = current;
+//     const copy: RandomNode = new RandomNode(val);
+//     copies.set(current, copy);
+//     prev.next = copy;
+//     if (toAssign.has(current)) {
+//         toAssign.get(current)!.random = copy;
+//         toAssign.delete(current);
+//     }
+//     if (random) {
+//         if (copies.has(random)) {
+//             copy.random = copies.get(random)!;
+//         } else {
+//             toAssign.set(random, copy);
+//         }
+//     } else {
+//         copy.random = null;
+//     }
+    
+//     prev = copy;
+//     current = next;
+// }
+// return dummy.next;
