@@ -1,34 +1,40 @@
-function problem23 (matrix, start, end) {
-    const DIRECTIONS = [[1, 0], [-1, 0], [0, 1], [0, -1]], ROWS = matrix.length, COLS = matrix[0].length, queue = [[start[0], start[1], 0]];
+function problem38(N) {
+    let arrangementCount = 0;
+    const visited = Array.from({ length: N }, () => new Array(N).fill(false));
+    const DIRECTIONS = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]];
 
     function _inbounds(r, c) {
-        return (0 <= r && r < ROWS) && (0 <= c && c < COLS);
+        return (0 <= r && r < N) && (0 <= c && c < N);
     }
 
-    matrix[start[0]][start[1]] = true;
-
-    while (queue.length) {
-        const [ row, col, steps ] = queue.shift();
-        if (row === end[0] && col === end[1]) {
-            return steps;
-        }
+    function _placeQueen(row, col, b) {
+        b[row][col] = true;
         for (const [dr, dc] of DIRECTIONS) {
-            const newRow = row + dr, newCol = col + dc;
-            if (_inbounds(newRow, newCol) && matrix[newRow][newCol] === false) {
-                matrix[newRow][newCol] = true;
-                queue.push([newRow, newCol, steps + 1]);
+            let newRow = row + dr;
+            let newCol = col + dc;
+            while (_inbounds(newRow, newCol)) {
+                b[newRow][newCol] = true;
+                newRow += dr;
+                newCol += dc;
             }
         }
+        return b;
     }
     
-    return -1;
+    console.log(_placeQueen(Math.floor(N / 2), Math.floor(N / 2), visited));
+    // function _populateBoard(startRow: number, startCol: number, board: boolean[][]): void {
+    //     let count: number = 0;
+    // }
+
+    // for (let row = 0; row < N; row++) {
+    //     for (let col = 0; col < N; col++) {
+    //         _populateBoard(row, col, visited);
+    //         visited[row][col] = true;
+    //     }
+    // }
+
+
+    return arrangementCount;
 }
 
-const matrix = [[false, false, false, false],
-[true, true, false, true],
-[false, false, false, false],
-[false, false, false, false]];
-const start = [3, 0];
-const end = [0, 0]; 
-
-console.log(problem23(matrix, start, end));
+console.log(problem38(7));
