@@ -27,4 +27,17 @@ Output: array of strings (length of each string must be integer or less)
 """
 
 def breakUpString(s: str, k: int) -> list[str]:
-    pass
+    i, ans = 0, list()
+
+    while (i < len(s)):
+        new_str = s[i : i + k]
+        j = 0
+        while (j < len(new_str) and new_str[-1 - j] is not " "):
+            j += 1
+        new_str = new_str[0:j]
+        if len(new_str) == 0:
+            return None
+        i -= j
+        ans.append(new_str)
+        
+    return ans
