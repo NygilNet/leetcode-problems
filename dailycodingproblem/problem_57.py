@@ -30,7 +30,7 @@ def breakUpString(s: str, k: int) -> list[str]:
     i, ans = 0, list()
 
     while (i < len(s)):
-        new_str = s[i : i + k]
+        new_str = s[i : i + k + 1]
         j = 0
         while (j < len(new_str) and new_str[-1 - j] is not " "):
             j += 1
