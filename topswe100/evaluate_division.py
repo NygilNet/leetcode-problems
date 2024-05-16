@@ -20,3 +20,31 @@ problem 1 - solve for variables:
     i. initialize a map to store the value of each variable we come across in the equations array
 
 """
+
+from collections import defaultdict
+def calcEquation(equations: list[list[str]], values: list[float], queries: list[list[str]]) -> list[float]:
+    equation_map = defaultdict(dict)
+
+    for i, (n, d) in enumerate(equations):
+        equation_map[n][d] = values[i]
+        equation_map[d][n] = 1 / values[i]
+
+    def _dfs(node, dest, res):
+        if node not in equation_map or dest not in equation_map or node in visited:
+            return -1
+        if node == dest:
+            return res
+        visited.add(node)
+        for neighbor, val in equation_map[node].items():
+            temp = _dfs(neighbor, res * val)
+            if temp != -1:
+                return temp
+        return -1
+    
+    res = []
+    for node, dest in queries:
+        visited = set()
+        val = _dfs(node, dest, 1)
+        res.append(val)
+
+    return res
