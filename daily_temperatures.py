@@ -15,18 +15,18 @@ Output: integer array
 """
 
 def dailyTemperatures(temperatures: list[int]) -> list[int]:
-        n = len(temperatures)
-        for i in range(n):
-            temp = temperatures[i]
-            count = 1
-            j = i + 1
-            while j <= n:
-                if j >= n:
-                    temperatures[i] = 0
-                    break
-                if temp < temperatures[j]:
-                    temperatures[i] = count
-                    break
-                count += 1
-                j += 1
-        return temperatures 
+    n = len(temperatures)
+    for i in range(n):
+        temp = temperatures[i]
+        count = 1
+        j = i + 1
+        while j <= n:
+            if j >= n:
+                temperatures[i] = 0
+                break
+            if temp < temperatures[j]:
+                temperatures[i] = count
+                break
+            count += 1
+            j += 1
+    return temperatures 
