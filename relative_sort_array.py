@@ -14,45 +14,70 @@ iii. list interpolation to build the output array
 
 """
 
+from collections import defaultdict
 class Solution:
     def relativeSortArray(self, arr1: list[int], arr2: list[int]) -> list[int]:
-        remain = []
-        def _findFirstIndexAndLength(arr: list[int]) -> tuple[(int, int)]:
-            res = {}
-            current_ele = arr[0]
-            last_index = 0
-            current_length = 0
-
-            arr_len = len(arr)
-            for i in range(arr_len):
-                if arr[i] is current_ele:
-                    current_length += 1
-                else:
-                    res[current_ele] = (last_index, current_length)
-                    if current_ele not in arr2:
-                        remain.append(current_ele)
-                    current_ele = arr[i]
-                    last_index = i
-                    current_length = 1
-
-            res[current_ele] = (last_index, current_length)
-            if current_ele not in arr2:
-                remain.append(current_ele)
-            return res
+        def _findElementsAndCounts(arr: list[int]) -> tuple[dict, list]:
+            res, r = defaultdict(int), set()
+            in_arr2 = set(arr2)
+       
+            for e in arr:
+                res[e] += 1
+                if e not in in_arr2 and e not in r:
+                    r.add(e)
+           
+            return (res, sorted(list(r)))
         
-        a = sorted(arr1)
-        first_indices = _findFirstIndexAndLength(a)
-        remain.sort()
-
+    
+        elements, remain = _findElementsAndCounts(arr1)
         res = []
+        
         for ele in arr2:
-            idx, length = first_indices[ele]
-            res += a[idx: idx + length]
+            res += [ele] * elements[ele]
         for ele in remain:
-            idx, length = first_indices[ele]
-            res += a[idx: idx + length]
+            res += [ele] * elements[ele]
 
         return res
+
+# class Solution:
+#     def relativeSortArray(self, arr1: list[int], arr2: list[int]) -> list[int]:
+#         remain = []
+#         def _findFirstIndexAndLength(arr: list[int]) -> tuple[(int, int)]:
+#             res = {}
+#             current_ele = arr[0]
+#             last_index = 0
+#             current_length = 0
+
+#             arr_len = len(arr)
+#             for i in range(arr_len):
+#                 if arr[i] is current_ele:
+#                     current_length += 1
+#                 else:
+#                     res[current_ele] = (last_index, current_length)
+#                     if current_ele not in arr2:
+#                         remain.append(current_ele)
+#                     current_ele = arr[i]
+#                     last_index = i
+#                     current_length = 1
+
+#             res[current_ele] = (last_index, current_length)
+#             if current_ele not in arr2:
+#                 remain.append(current_ele)
+#             return res
+        
+#         a = sorted(arr1)
+#         first_indices = _findFirstIndexAndLength(a)
+#         remain.sort()
+
+#         res = []
+#         for ele in arr2:
+#             idx, length = first_indices[ele]
+#             res += a[idx: idx + length]
+#         for ele in remain:
+#             idx, length = first_indices[ele]
+#             res += a[idx: idx + length]
+
+#         return res
 
 
 # class Solution:
