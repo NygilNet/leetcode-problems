@@ -67,8 +67,10 @@ class Solution:
 
                 if ele + 1 in visited:
                     _addToTail(double_ended_list, visited[ele + 1])
+                    visited[ele + 1] = double_ended_list
                 if ele - 1 in visited:
                     _addToHead(double_ended_list, visited[ele - 1])
+                    visited[ele - 1] = double_ended_list
 
                 visited[ele] = double_ended_list
 
