@@ -13,7 +13,7 @@ class Solution:
         right = len(string) - 1
         deletes_left = k
 
-        def _checkRange(l: int, r: int, dels_left: int, going_left: bool) -> (int, int):
+        def _checkRange(l: int, r: int, dels_left: int, going_left: bool) -> tuple[int, int]:
             while dels_left <= 0 and l < r and string[l] != string[r]:
                 dels_left -= 1
                 if going_left:
