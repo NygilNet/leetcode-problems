@@ -13,13 +13,37 @@ import random
 class Solution:
     def generateBasedOnProbabilities(numbers: list[int], probabilities: list[float]) -> int:
         TARGET = random.uniform(0, 1)
-        prev = 0
-        running_total = 0
+        ranges = []
+        for p in probabilities:
+            ranges.append(ranges[-1] if ranges else 0 + p)
+        if ranges[-1] != 1:
+            raise Exception("probabilities do not add to 1")
 
-        for i, p in enumerate(probabilities):
-            running_total += p
+        left, right = 0, len(ranges) - 1
 
-            if prev <= TARGET <= running_total:
-                return numbers[i]
+        while left <= right:
+            mid = left + ((right - left) // 2)
+
+            if ranges[mid] == TARGET:
+                break
+            elif ranges[mid] > TARGET:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+        return numbers[left]
+
+# import random
+# class Solution:
+#     def generateBasedOnProbabilities(numbers: list[int], probabilities: list[float]) -> int:
+#         TARGET = random.uniform(0, 1)
+#         prev = 0
+#         running_total = 0
+
+#         for i, p in enumerate(probabilities):
+#             running_total += p
+
+#             if prev <= TARGET <= running_total:
+#                 return numbers[i]
             
-            prev = running_total
+#             prev = running_total
