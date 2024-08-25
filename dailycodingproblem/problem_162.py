@@ -84,15 +84,12 @@ class Solution:
         
         res = []
 
-        for l in letters:
-            print(letters[l].root)
-
         for word in words:
-            prefix = word[0]
+            prefix = ""
             current = letters[prefix].root
-            next = 1
+            next = 0
 
-            while not _isSingleBranch(current):
+            while next < len(word) and not _isSingleBranch(current):
                 next_char = word[next]
                 current = current.kids[next_char]
                 prefix += next_char
