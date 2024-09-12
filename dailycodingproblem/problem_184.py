@@ -25,6 +25,8 @@ v. return the smallest element
 class Solution:
     def greatestCommonDenominator(elements: list[int]) -> int | None:
         smallest = min(elements)
+        if smallest == 1:
+            return smallest
 
         for current in elements:
             if abs(current) % smallest != 0:
