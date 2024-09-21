@@ -53,3 +53,25 @@ mid point:
     check the left side and right side of the mid point to see the difference of characters we need to make the palindrome
 
 """
+
+class Solution:
+    def shortestPalindrome(self, s: str) -> str:
+        N = len(s)
+        midpoint = N // 2 
+        def _inbounds(idx: int) -> bool:
+            return 0 <= idx < N
+        
+        while midpoint > 0:
+            left, right = midpoint - 1, midpoint + 1
+            reached_left = False
+            while _inbounds(left) and _inbounds(right):
+                if left == 0:
+                    reached_left = True
+                if s[left] != s[right]:
+                    break
+            if reached_left:
+                return s[right::-1] + s
+            else:
+                midpoint -= 1
+
+        return s[1::-1] + s
