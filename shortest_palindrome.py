@@ -57,21 +57,73 @@ mid point:
 class Solution:
     def shortestPalindrome(self, s: str) -> str:
         N = len(s)
-        midpoint = N // 2 
-        def _inbounds(idx: int) -> bool:
-            return 0 <= idx < N
-        
-        while midpoint > 0:
-            left, right = midpoint - 1, midpoint + 1
-            reached_left = False
-            while _inbounds(left) and _inbounds(right):
-                if left == 0:
-                    reached_left = True
-                if s[left] != s[right]:
-                    break
-            if reached_left:
-                return s[right::-1] + s
-            else:
-                midpoint -= 1
 
-        return s[1::-1] + s
+        if N == 0:
+            return s
+        
+        left = 0
+        for right in range(N - 1, -1, -1):
+            if s[right] == s[left]:
+                left += 1
+
+        if left == N:
+            return s
+        
+        nonPalindromeSuffix = s[left:]
+        reverseSuffix = nonPalindromeSuffix[::-1]
+        
+        return (
+            reverseSuffix
+            + self.shortestPalindrome(s[:left])
+            + nonPalindromeSuffix
+        )
+
+# class Solution:
+#     def shortestPalindrome(self, s: str) -> str:
+#         N = len(s)
+
+#         def _inbounds(idx: int) -> bool:
+#             return 0 <= idx < N
+        
+#         def _buildPalindrome(midpoint: int, secondMidpoint: int | None) -> str:
+#             is_palindrome = True
+
+#         midpoint = N // 2
+#         pal_1 = _buildPalindrome(midpoint)
+#         pal_2 = _buildPalindrome(midpoint, midpoint + 1)
+
+#         return pal_1 if len(pal_1) < len(pal_2) else pal_2
+
+
+# class Solution:
+#     def shortestPalindrome(self, s: str) -> str:
+#         N = len(s)
+#         midpoint = N // 2 
+#         def _inbounds(idx: int) -> bool:
+#             return 0 <= idx < N
+#         l, r = 0, N - 1
+#         is_palindrome = True
+#         while l < r:
+#             if s[l] != s[r]:
+#                 is_palindrome = False
+#                 break
+#             l += 1
+#             r -= 1
+#         if is_palindrome:
+#             return s
+#         while midpoint > 1:
+#             left, right = midpoint - 1, midpoint + 1
+#             reached_left = False
+#             while _inbounds(left) and _inbounds(right):
+#                 if left == 0:
+#                     reached_left = True
+#                 if s[left] != s[right]:
+#                     break
+#                 left -= 1
+#                 right += 1
+#             if reached_left:
+#                 return s[N:right - 1:-1] + s
+#             else:
+#                 midpoint -= 1
+
+#         return s[:0:-1] + s
