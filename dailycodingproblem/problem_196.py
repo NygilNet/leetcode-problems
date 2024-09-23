@@ -12,7 +12,7 @@ Return 2 as it occurs twice: once as the left leaf, and once as the sum of 2 + 5
 """
 
 class TreeNode:
-    def __init__(self, val, left, right) -> None:
+    def __init__(self, val=0, left=None, right=None) -> None:
         self.val = val
         self.left = left
         self.right = right
@@ -26,9 +26,9 @@ class Solution:
         sums = defaultdict(int)
 
         def _collectSums(node: TreeNode):
-            if not node.left and not node.right:
-                sums[node.val] += 1
-                return node.val
+            # if not node.left and not node.right:
+            #     sums[node.val] += 1
+            #     return node.val
             
             left_sum = _collectSums(node.left) if node.left else 0
             right_sum = _collectSums(node.right) if node.right else 0
@@ -48,3 +48,7 @@ class Solution:
 
         return sums[key_of_max]
         
+tree = TreeNode(5, TreeNode(2), TreeNode(-5))
+solution = Solution()
+
+print(solution.mostFrequentSumInSubtree(tree))
