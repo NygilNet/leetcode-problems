@@ -86,35 +86,55 @@ class Trie:
     def startsWith(self, prefix: str) -> bool:
         return self._traverse(prefix)[0]
 
-from collections import defaultdict
+from collections import defaultdict, deque
 class Solution:
+    # second attempt
     def minExtraChar(self, s: str, dictionary: list[str]) -> int:
-        tries = defaultdict(Trie)
-        for word in dictionary:
-            tries[word[0]].insert(word)
+        queue = deque(sorted(dictionary.copy(), key=len, reverse=True))
         
-        leftover_chars = 0
-        pointer = 0
+        leftover_chars = s
 
-        while pointer < len(s):
-            char = s[pointer]
-            if char in tries:
-                possible_words = []
-                substring = char
-                idx = pointer
-                while idx < len(s) and tries[char].startsWith(substring):
-                    if tries[char].search(substring):
-                        possible_words.append(substring)
-                    if idx == len(s) - 1:
-                        break
-                    substring += s[idx + 1]
-                    idx += 1
-                if not possible_words:
-                    leftover_chars += 1
-                    continue
-                pointer += (len(possible_words[-1]) - 1)
-            else:
-                leftover_chars += 1
-            pointer += 1
+        while queue:
+            current_word = queue.popleft()
+            left, right = 0, len(current_word) - 1
 
-        return leftover_chars
+            while left < right < len(leftover_chars):
+                substring = leftover_chars[left:right + 1]
+                if substring == current_word:
+                    leftover_chars = leftover_chars[0:left] + leftover_chars[right + 1:]
+                left += 1
+                right += 1
+
+        return len(leftover_chars)
+
+
+    # def minExtraChar(self, s: str, dictionary: list[str]) -> int:
+    #     tries = defaultdict(Trie)
+    #     for word in dictionary:
+    #         tries[word[0]].insert(word)
+        
+    #     leftover_chars = 0
+    #     pointer = 0
+
+    #     while pointer < len(s):
+    #         char = s[pointer]
+    #         if char in tries:
+    #             possible_words = []
+    #             substring = char
+    #             idx = pointer
+    #             while idx < len(s) and tries[char].startsWith(substring):
+    #                 if tries[char].search(substring):
+    #                     possible_words.append(substring)
+    #                 if idx == len(s) - 1:
+    #                     break
+    #                 substring += s[idx + 1]
+    #                 idx += 1
+    #             if not possible_words:
+    #                 leftover_chars += 1
+    #                 continue
+    #             pointer += (len(possible_words[-1]) - 1)
+    #         else:
+    #             leftover_chars += 1
+    #         pointer += 1
+
+    #     return leftover_chars
