@@ -32,11 +32,11 @@ class Solution:
             cycles = 0
             n = i
             while n != 1:
-                if n <= 1000000 and memo[int(n)]:
-                    cycles += memo[int(n)]
+                if n <= 1000000 and memo[n]:
+                    cycles += memo[n]
                     break
                 if n % 2 == 0:
-                    n = n / 2
+                    n = n // 2
                 else:
                     n = (3 * n) + 1
                 cycles += 1
