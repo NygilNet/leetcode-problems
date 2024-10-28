@@ -55,6 +55,8 @@ def main():
 
     DISPLAYSURF.fill(BGCOLOR)
 
+    # draw the board
+
     while True:
         mouseClicked = False
 
@@ -67,6 +69,8 @@ def main():
             elif event.type == MOUSEBUTTONUP:
                 mousex, mousey = event.pos
                 mouseClicked = True
+        
+        # when you hover over a row that is not fill, the row highlights
         
         pygame.display.update()
         FPSCLOCK.tick(FPS)
