@@ -12,7 +12,8 @@ t     a     g
 
 */
 
-Solution.PrintZigzag("thisisazigzag", 4);
+Solution solution = new Solution();
+solution.PrintZigzag("thisisazigzag", 4);
 
 class Solution 
 {
