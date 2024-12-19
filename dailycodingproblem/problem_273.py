@@ -34,7 +34,7 @@ class Solution:
         left, right = 0, N - 1
 
         while left <= right:
-            if (array[left] < 0 and array[right] < 0) or (array[left] > N and array[right] > N):
+            if array[right] < 0 or array[left] > N - 1:
                 break
             midpoint = left + (right - left) // 2
             val = array[midpoint]
